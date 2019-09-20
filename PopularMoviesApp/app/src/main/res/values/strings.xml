@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Popular Movies App</string>
+    <string name="description">This will be a very long description to determine that the quote will wrap onto multiple lines. It is a description of the movie or a basic plot synopsis.</string>
+    <string name="movie_rating">Movie Rating</string>
+    <string name="release_date">Release Date</string>
+    <string name="movie_title">Movie Title</string>
+</resources>
