@@ -37,8 +37,8 @@ public class JsonUtils {
 
                 String title = currentMovie.getString("original_title");
 
-                StringBuilder moviePoster = new StringBuilder("http://image.tmdb.org/t/p/")
-                        .append("w185/")
+                StringBuilder moviePoster = new StringBuilder("https://image.tmdb.org/t/p/")
+                        .append("w185")
                         .append(currentMovie.getString("poster_path"));
 
                 String rating = currentMovie.getString("vote_average");
