@@ -27,15 +27,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             movieView = LayoutInflater.from(getContext()).inflate(R.layout.movie_list_item, parent, false);
         }
         Movie movie = getItem(position);
-        TextView titleTextView = movieView.findViewById(R.id.movie_title);
-        titleTextView.setText(movie.getMovieTitle());
-        TextView ratingTextView = movieView.findViewById(R.id.rating);
-        ratingTextView.setText(movie.getMovieRating());
-        TextView descriptionTextView = movieView.findViewById(R.id.description);
-        descriptionTextView.setText(movie.getMovieDescription());
-        TextView releaseDateTextView = movieView.findViewById(R.id.release_date);
-        releaseDateTextView.setText(movie.getMovieReleaseDate());
-
         ImageView moviePosterImageView = movieView.findViewById(R.id.movie_poster);
         Picasso.get()
                 .load(movie.getMoviePoster())
