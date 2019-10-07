@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     @NonNull
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, @Nullable Bundle bundle) {
-        //final URL = "http://api.themoviedb.org/3/movie/popular?api_key=ed323325e841b693680419fec6dc68ed"
+        //final URL = "http://api.themoviedb.org/3/movie/popular?api_key="
         Uri baseUri = Uri.parse(TMDB_BASE_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendPath(sort_by);
