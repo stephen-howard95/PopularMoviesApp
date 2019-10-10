@@ -19,12 +19,16 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: check Lesson 2, part 8: "Setting up the Settings Activity" to fix the settings options
+//TODO: continue with the videos from there. They are super helpful.
+//TODO: check Lesson 5 part 26: "Broadcast Receivers" for online vs offline connectivity stuff
+
 public class MainActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<List<Movie>> {
 
     public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static String sort_by = "popular";
     //Insert your TMDB API key in the String below
-    public static final String API_KEY = "";
+    public static final String API_KEY = "ed323325e841b693680419fec6dc68ed";
 
     public static final int MOVIE_LOADER_ID = 1;
 
@@ -47,32 +51,16 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
                 launchDetailActivity((Movie) parent.getItemAtPosition(position));
             }
         });
-        // Get a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // Get details on the currently active default data network
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        // If there is a network connection, fetch data
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // Get a reference to the LoaderManager, in order to interact with loaders.
-            android.app.LoaderManager loaderManager = getLoaderManager();
-
-            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-            // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
-        } else {
-        }
     }
-    private void launchDetailActivity(Movie movie){
+
+    private void launchDetailActivity(Movie movie) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(DetailActivity.MOVIE_TITLE, movie.getMovieTitle());
         intent.putExtra(DetailActivity.RELEASE_DATE, movie.getMovieReleaseDate());
         intent.putExtra(DetailActivity.MOVIE_RATING, movie.getMovieRating());
         intent.putExtra(DetailActivity.DESCRIPTION, movie.getMovieDescription());
         intent.putExtra(DetailActivity.MOVIE_POSTER, movie.getMoviePoster());
+        intent.putExtra(String.valueOf(DetailActivity.MOVIE_ID), movie.getMovieId());
         startActivity(intent);
     }
 
@@ -92,9 +80,11 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     public void onLoadFinished(android.content.Loader<List<Movie>> loader, List<Movie> movies) {
         mAdapter.clear();
 
-        if(movies != null && !movies.isEmpty()){
+        if (movies != null && !movies.isEmpty()) {
             mAdapter.addAll(movies);
         }
+
+        getLoaderManager().destroyLoader(loader.getId());
     }
 
     @Override
@@ -109,17 +99,33 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.popular:
-                sort_by = "popular";
-                startActivity(new Intent(this, MainActivity.class));
-                return true;
-            case R.id.top_rated:
-                sort_by = "top_rated";
-                startActivity(new Intent(this, MainActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.Settings) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        // If there is a network connection, fetch data
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Get a reference to the LoaderManager, in order to interact with loaders.
+            android.app.LoaderManager loaderManager = getLoaderManager();
+
+            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+            // because this activity implements the LoaderCallbacks interface).
+            loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
         }
     }
 }
