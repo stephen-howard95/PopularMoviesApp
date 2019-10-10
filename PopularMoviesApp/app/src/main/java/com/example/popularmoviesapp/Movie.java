@@ -6,20 +6,15 @@ public class Movie {
     private String mMovieRating;
     private String mMovieDescription;
     private String mMoviePoster;
+    private int mMovieId;
 
-    public Movie(String movieTitle, String movieReleaseDate, String movieRating, String movieDescription, String moviePoster){
+    public Movie(String movieTitle, String movieReleaseDate, String movieRating, String movieDescription, String moviePoster, int movieId){
         mMovieTitle = movieTitle;
         mMovieReleaseDate = movieReleaseDate;
         mMovieRating = movieRating;
         mMovieDescription = movieDescription;
         mMoviePoster = moviePoster;
-    }
-    public Movie(String movieTitle, String moviePoster){
-        mMovieTitle = movieTitle;
-        mMoviePoster = moviePoster;
-    }
-    public Movie(){
-
+        mMovieId = movieId;
     }
 
     public String getMovieTitle(){
@@ -36,5 +31,8 @@ public class Movie {
     }
     public String getMoviePoster(){
         return mMoviePoster;
+    }
+    public int getMovieId(){
+        return mMovieId;
     }
 }
