@@ -46,6 +46,8 @@ public class JsonUtils {
                 String description = currentMovie.getString("overview");
 
                 String releaseDate = currentMovie.getString("release_date");
+                
+                int movieId = currentMovie.getInt("id")
 
                 Movie movie = new Movie(title, releaseDate, rating, description, moviePoster.toString());
 
